@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[35]:
-
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,14 +10,8 @@ nltk.download('punkt')
 
 
 
-# In[36]:
-
-
 eu_regulation_url = "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32019R0947&from=EN"
 
-
-
-# In[37]:
 
 
 def convert_text(url):                               #this converts the url to actual text
@@ -31,15 +20,15 @@ def convert_text(url):                               #this converts the url to a
     return soup.get_text()
 
 
-# In[26]:
 
 
 eu_regulation_text = convert_text(eu_regulation_url)
 eu_regulation_text
 
 
-# In[61]:
 
+## Count the number of sentences 
+## Calculate the length of sentences (as in words per sentence) and then show the overall distribution of sentence length for the document.
 
 def analyze_sentences(text):                 #by tokenizing the senteces we separete them one by one and we get the number of words per sentence
     sentences = sent_tokenize(text)
@@ -49,15 +38,12 @@ def analyze_sentences(text):                 #by tokenizing the senteces we sepa
     return num_sentences, length_distribution
 
 
-# In[62]:
-
-
 analyze_sentences_laws = analyze_sentences(eu_regulation_text)
 analyze_sentences_laws
 
 
-# In[41]:
 
+## Similarity and graph
 
 def calculate_similarity(sentences):        #we get the similarity between sentences compared to the respectively Echelor Form matrix position.
     vectorizer = TfidfVectorizer()
@@ -66,14 +52,8 @@ def calculate_similarity(sentences):        #we get the similarity between sente
     return similarity_matrix
 
 
-# In[49]:
-
-
 sentences = sent_tokenize(eu_regulation_text)
 calculate_similarity(sentences)
-
-
-# In[50]:
 
 
 def plot_similarity_graph(similarity_matrix):               #the similarity graph
@@ -83,15 +63,11 @@ def plot_similarity_graph(similarity_matrix):               #the similarity grap
     plt.show()
 
 
-# In[52]:
-
-
 plot_similarity_graph(calculate_similarity(sentences))
 
 
-# In[59]:
 
-
+## BONUS PART: get the keywords 
 def get_keywords(text, num_keywords=10):        #we get the keywords by Term Frecuency in the document 
     vectorizer = TfidfVectorizer(stop_words='english')
     tfidf_matrix = vectorizer.fit_transform([text])
@@ -101,13 +77,10 @@ def get_keywords(text, num_keywords=10):        #we get the keywords by Term Fre
     return top_keywords
 
 
-# In[60]:
-
-
 get_keywords(eu_regulation_text)
 
 
-# In[47]:
+
 
 
 
